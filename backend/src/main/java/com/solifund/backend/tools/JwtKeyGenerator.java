@@ -1,0 +1,23 @@
+package com.solifund.backend.tools;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Encoders;
+
+import javax.crypto.SecretKey;
+
+public class JwtKeyGenerator {
+
+    public static void main(String[] args) {
+
+        SecretKey key = Jwts.SIG.HS256.key().build();
+
+        String secret = Encoders.BASE64.encode(key.getEncoded());
+
+        System.out.println("\n==============================");
+        System.out.println("JWT SECRET");
+        System.out.println("==============================");
+        System.out.println(secret);
+        System.out.println("==============================");
+    }
+
+}
