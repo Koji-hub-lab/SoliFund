@@ -1,13 +1,28 @@
 package com.solifund.backend.entity;
 
 import com.solifund.backend.enums.StatutUtilisateur;
-import jakarta.persistence.*;
-import lombok.*;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "slf_utilisateur")
@@ -53,43 +68,41 @@ public class Utilisateur {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-        name = "slf_posseder",
-        joinColumns = @JoinColumn(name = "id_utilisateur"),
-        inverseJoinColumns = @JoinColumn(name = "id_role")
-    )
+            name = "slf_posseder",
+            joinColumns = @JoinColumn(name = "id_utilisateur"),
+            inverseJoinColumns = @JoinColumn(name = "id_role"))
     @Builder.Default
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
-@Builder.Default
-private Set<Jeton> jetons = new HashSet<>();
+    @Builder.Default
+    private Set<Jeton> jetons = new HashSet<>();
 
-@OneToMany(mappedBy = "utilisateur")
-@Builder.Default
-private Set<Cagnotte> cagnottes = new HashSet<>();
+    @OneToMany(mappedBy = "utilisateur")
+    @Builder.Default
+    private Set<Cagnotte> cagnottes = new HashSet<>();
 
-@OneToMany(mappedBy = "utilisateur")
-@Builder.Default
-private Set<Paiement> paiements = new HashSet<>();
+    @OneToMany(mappedBy = "utilisateur")
+    @Builder.Default
+    private Set<Paiement> paiements = new HashSet<>();
 
-@OneToMany(mappedBy = "utilisateur")
-@Builder.Default
-private Set<Don> dons = new HashSet<>();
+    @OneToMany(mappedBy = "utilisateur")
+    @Builder.Default
+    private Set<Don> dons = new HashSet<>();
 
-@OneToMany(mappedBy = "utilisateur")
-@Builder.Default
-private Set<Commentaire> commentaires = new HashSet<>();
+    @OneToMany(mappedBy = "utilisateur")
+    @Builder.Default
+    private Set<Commentaire> commentaires = new HashSet<>();
 
-@OneToMany(mappedBy = "utilisateur")
-@Builder.Default
-private Set<Retrait> retraits = new HashSet<>();
+    @OneToMany(mappedBy = "utilisateur")
+    @Builder.Default
+    private Set<Retrait> retraits = new HashSet<>();
 
-@ManyToMany
-@JoinTable(
-        name = "slf_recevoir",
-        joinColumns = @JoinColumn(name = "id_utilisateur"),
-        inverseJoinColumns = @JoinColumn(name = "id_notification")
-)
-@Builder.Default
-private Set<Notification> notifications = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name = "slf_recevoir",
+            joinColumns = @JoinColumn(name = "id_utilisateur"),
+            inverseJoinColumns = @JoinColumn(name = "id_notification"))
+    @Builder.Default
+    private Set<Notification> notifications = new HashSet<>();
 }
