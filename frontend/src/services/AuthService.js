@@ -3,10 +3,20 @@ import axiosInstance from '../utils/axiosConfig'
 const AuthService = {
 
   // Inscription
-  register: async (userData) => {
-    const response = await axiosInstance.post('/auth/register', userData)
+ register: async (userData) => {
+
+    const request = {
+        nom: userData.nom,
+        prenom: userData.prenom,
+        email: userData.email,
+        telephone: userData.telephone,
+        motDePasse: userData.motDePasse
+    }
+
+    const response = await axiosInstance.post('/auth/register', request)
+
     return response.data
-  },
+},
 
   // Connexion
   login: async (credentials) => {
@@ -14,7 +24,6 @@ const AuthService = {
     // Stocker le token JWT dans localStorage
     if (response.data.token) {
       localStorage.setItem('token', response.data.token)
-      localStorage.setItem('user', JSON.stringify(response.data.user))
     }
     return response.data
   },
@@ -37,10 +46,10 @@ const AuthService = {
   },
 
   // Récupérer le profil depuis l'API
-  getProfile: async () => {
+  /*getProfile: async () => {
     const response = await axiosInstance.get('/users/profile')
     return response.data
-  },
+  },*/
 }
 
 export default AuthService
